@@ -1,0 +1,301 @@
+{
+    "tables": {
+        "Employees": {
+            "tableName": "Employees",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "email": {
+                    "required": true,
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "password": {
+                    "field": "password",
+                    "seqType": "Sequelize.STRING"
+                },
+                "mobileNo": {
+                    "required": true,
+                    "allowNull": false,
+                    "len": 12,
+                    "unique": true,
+                    "field": "mobileNo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "role": {
+                    "required": true,
+                    "defaultValue": {},
+                    "field": "role",
+                    "seqType": "Sequelize.STRING"
+                },
+                "currentLocation": {
+                    "field": "currentLocation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "aadharNo": {
+                    "len": 12,
+                    "unique": true,
+                    "field": "aadharNo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "onDuty": {
+                    "defaultValue": {
+                        "value": false
+                    },
+                    "field": "onDuty",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "FIRs": {
+            "tableName": "FIRs",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "accusedDesciption": {
+                    "field": "accusedDesciption",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "complaint": {
+                    "field": "complaint",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "date": {
+                    "field": "date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "placeOfOccurence": {
+                    "field": "placeOfOccurence",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "propertyDamage": {
+                    "field": "propertyDamage",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "witnessDetails": {
+                    "field": "witnessDetails",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "UserId": {
+                    "field": "UserId",
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "EmployeeId": {
+                    "field": "EmployeeId",
+                    "allowNull": true,
+                    "references": {
+                        "model": "Employees",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "crimeNature": {
+                    "field": "crimeNature",
+                    "seqType": "Sequelize.STRING"
+                },
+                "status": {
+                    "defaultValue": {
+                        "value": "Not Assigned"
+                    },
+                    "field": "status",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "Sos": {
+            "tableName": "Sos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "reason": {
+                    "field": "reason",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "feedback": {
+                    "field": "feedback",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "UserId": {
+                    "field": "UserId",
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "EmployeeId": {
+                    "field": "EmployeeId",
+                    "allowNull": true,
+                    "references": {
+                        "model": "Employees",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "stars": {
+                    "field": "stars",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "currentLocation": {
+                    "field": "currentLocation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "startLocation": {
+                    "field": "startLocation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "endLocation": {
+                    "field": "endLocation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "status": {
+                    "field": "status",
+                    "seqType": "Sequelize.STRING"
+                },
+                "employeeResponse": {
+                    "defaultValue": {
+                        "value": "No Response"
+                    },
+                    "field": "employeeResponse",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "Users": {
+            "tableName": "Users",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "email": {
+                    "required": true,
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "password": {
+                    "field": "password",
+                    "seqType": "Sequelize.STRING"
+                },
+                "mobileNo": {
+                    "required": true,
+                    "allowNull": false,
+                    "len": 12,
+                    "unique": true,
+                    "field": "mobileNo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "aadharNumber": {
+                    "required": true,
+                    "allowNull": false,
+                    "len": 12,
+                    "unique": true,
+                    "field": "aadharNumber",
+                    "seqType": "Sequelize.STRING"
+                },
+                "gender": {
+                    "field": "gender",
+                    "seqType": "Sequelize.ENUM('M', 'F', 'O')"
+                },
+                "address": {
+                    "field": "address",
+                    "seqType": "Sequelize.STRING"
+                },
+                "pincode": {
+                    "len": 6,
+                    "field": "pincode",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "revision": 9
+}
