@@ -1,7 +1,7 @@
 
 
 const { Model } = require('sequelize');
-import { emplyoeeSosResponse, SosRoles } from '../../../../constants'
+import { emplyoeeSosResponse } from '../../../../constants'
 
 module.exports = (sequelize, DataTypes) => {
   class Sos extends Model {

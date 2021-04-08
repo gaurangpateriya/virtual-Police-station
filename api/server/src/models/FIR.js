@@ -1,6 +1,6 @@
 
 const { Model } = require('sequelize');
-import { emplyoeeFIRResponse, FIRRoles, firStatus } from '../../../../constants'
+import { firStatus } from '../../../../constants'
 
 module.exports = (sequelize, DataTypes) => {
   class FIR extends Model {
