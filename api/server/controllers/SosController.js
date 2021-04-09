@@ -12,6 +12,7 @@ import EmployeeService from '../services/EmployeeService';
 import { sequelize } from '../src/models';
 import { Op } from 'sequelize';
 import NotificationController from './NotificationController';
+import twilio from 'twilio';
 
 Math.radians = function (degrees) {
   return degrees * Math.PI / 180;
@@ -37,6 +38,11 @@ const distanceBetweenLatLong = (latLong1, latLong2) => {
 
   return (c * r)
 }
+
+const accountSid = process.env.TWILLIO_ACCOUNT_SID;
+const authToken = process.env.TWILLIO_AUTH_TOKEN;
+
+const twilioClient = twilio(accountSid, authToken);
 
 
 
@@ -142,6 +148,17 @@ class SosController {
       //sending the signal to the first available employee
       let signal = { UserId: id, EmployeeId: employeeId, currentLocation, startLocation, status };
       signal = await SosService.addSos(signal);
+
+      twilioClient.calls
+        .create({
+          twiml: '<Response><Say>Some one is in danger. please checkout the Police App to help him or her.</Say></Response>',
+          to: `+91${mobileNo}`,
+          from: '+17084773480'
+        })
+        .then(call => console.log(call.sid)).catch(err => {
+          console.log(err, err.response)
+        })
+
       // sending the notification and call to all the employees in whicch are haiving the SOS Signal
       NotificationController.sendNotification(
         [notifToken],
