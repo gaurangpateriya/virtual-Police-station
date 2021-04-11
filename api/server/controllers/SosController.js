@@ -1,18 +1,21 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 /* eslint-disable max-len */
+import twilio from 'twilio';
+import http from 'http';
+import Vonage from '@vonage/server-sdk';
+import axios from 'axios';
+import { Op } from 'sequelize';
 
-
-import SosService from '../services/SosService';
 
 import Util from '../utils/Utils';
-
 import { employeeRoles, emplyoeeSosResponse, SosRole, sosStatus, SosStatus } from '../../../constants';
+
 import EmployeeService from '../services/EmployeeService';
+import SosService from '../services/SosService';
 import { sequelize } from '../src/models';
-import { Op } from 'sequelize';
 import NotificationController from './NotificationController';
-import twilio from 'twilio';
+
 
 Math.radians = function (degrees) {
   return degrees * Math.PI / 180;
@@ -41,10 +44,96 @@ const distanceBetweenLatLong = (latLong1, latLong2) => {
 
 const accountSid = process.env.TWILLIO_ACCOUNT_SID;
 const authToken = process.env.TWILLIO_AUTH_TOKEN;
-
 const twilioClient = twilio(accountSid, authToken);
+const vonage = new Vonage({
+  apiKey: process.env.NEXMO_API_KEY,
+  apiSecret: process.env.NEXMO_API_SECRET
+})
 
 
+function toDegreesMinutesAndSeconds(coordinate) {
+  var absolute = Math.abs(coordinate);
+  var degrees = Math.floor(absolute);
+  var minutesNotTruncated = (absolute - degrees) * 60;
+  var minutes = Math.floor(minutesNotTruncated);
+  var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+
+  return degrees + "°" + minutes + "'" + seconds + '"';
+}
+
+function convertDMS(lat, lng) {
+  var latitude = toDegreesMinutesAndSeconds(lat);
+  var latitudeCardinal = lat >= 0 ? "N" : "S";
+
+  var longitude = toDegreesMinutesAndSeconds(lng);
+  var longitudeCardinal = lng >= 0 ? "E" : "W";
+
+  return latitude + '' + latitudeCardinal + "+" + longitude + '' + longitudeCardinal;
+}
+
+const sendTextMessage = async (user = {}, sendTo, signal) => {
+  const { name, gender } = user;
+  let { startLocation } = signal;
+  startLocation = JSON.parse(startLocation);
+
+  const { latitude, longitude } = startLocation;
+
+  const { mobileNo } = sendTo;
+
+  const from = "Virtual Police"
+  const to = `91${mobileNo}`
+  const location = `https://www.google.co.in/maps/place/${convertDMS(latitude, longitude)}/`;
+
+  const text = `Urgent, ${name} is in some danger. The last location of the ${name} was ${location}. Please hurry to help ${name}`;
+
+  // const data = {
+  //   "flow_id": "6072e66c15369332ec50638a",
+  //   "sender": "TESTID",
+  //   "mobiles": to,
+  //   "name": name,
+  //   "location": location
+  // }
+  // var options = {
+  //   "method": "POST",
+  //   "hostname": "api.msg91.com",
+  //   "port": null,
+  //   "path": "/api/v5/flow/",
+  //   "headers": {
+  //     "authkey": process.env.MSG_91_API_KEY,
+  //     "content-type": "application/JSON"
+  //   }
+  // };
+
+  // var req = http.request(options, function (res) {
+  //   var chunks = [];
+
+  //   res.on("data", function (chunk) {
+  //     chunks.push(chunk);
+  //   });
+
+  //   res.on("end", function () {
+  //     var body = Buffer.concat(chunks);
+
+  //   });
+  // });
+
+  // req.write(JSON.stringify(data));
+  // req.end();
+  // console.log(text);
+
+  vonage.message.sendSms(from, to, text, (err, responseData) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (responseData.messages[0]['status'] === "0") {
+        console.log("Message sent successfully.");
+      } else {
+        console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+      }
+    }
+  })
+
+}
 
 
 
@@ -119,7 +208,7 @@ class SosController {
 
     try {
       const { user } = req;
-      const { id, name } = user;
+      const { id, name, UserRelatives } = user;
       const { currentLocation, startLocation } = req.body;
       const status = sosStatus.ACTIVE;
       // UserId: DataTypes.INTEGER,
@@ -159,6 +248,11 @@ class SosController {
           console.log(err, err.response)
         })
 
+      UserRelatives.map((r, i) => {
+        if (i <= 1) {
+          sendTextMessage(user, r, signal)
+        }
+      })
       // sending the notification and call to all the employees in whicch are haiving the SOS Signal
       NotificationController.sendNotification(
         [notifToken],
@@ -229,7 +323,7 @@ class SosController {
     try {
       const { sosId, currentLocation } = req.body;
       const signal = { currentLocation };
-      console.log("sos id", signal, sosId)
+
       const updatedSos = await SosService.updateSos(sosId, signal);
       util.setSuccess(200, "Current location updated", updatedSos);
       return util.send(res);
@@ -255,8 +349,8 @@ class SosController {
   }
   static async getActiveSosEmployeeLocation(req, res) {
     try {
-      const { user } = req;
-      console.log(req.query)
+
+
       const { sosId } = req.query;
 
       const location = await SosService.getSosEmpLocation(sosId);

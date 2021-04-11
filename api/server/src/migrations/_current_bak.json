@@ -35,7 +35,9 @@
                 },
                 "role": {
                     "required": true,
-                    "defaultValue": {},
+                    "defaultValue": {
+                        "value": "Not Assigned"
+                    },
                     "field": "role",
                     "seqType": "Sequelize.STRING"
                 },
@@ -55,6 +57,10 @@
                     },
                     "field": "onDuty",
                     "seqType": "Sequelize.BOOLEAN"
+                },
+                "notifToken": {
+                    "field": "notifToken",
+                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -135,6 +141,10 @@
                     },
                     "field": "status",
                     "seqType": "Sequelize.STRING"
+                },
+                "remark": {
+                    "field": "remark",
+                    "seqType": "Sequelize.TEXT"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -295,7 +305,42 @@
                 }
             },
             "indexes": []
+        },
+        "UserRelatives": {
+            "tableName": "UserRelatives",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "mobileNo": {
+                    "field": "mobileNo",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "UserId": {
+                    "field": "UserId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
         }
     },
-    "revision": 9
+    "revision": 11
 }

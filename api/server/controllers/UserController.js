@@ -91,26 +91,17 @@ class UserController {
   // method to update the user details in the database
   static async updateUserDetals(req, res) {
     // send the user details that you have to update
-    const { user } = req.body;
-    const { userId } = req.query;
 
-    if (!user) {
-      util.setError(400, 'user is a required field');
-      return util.send(res);
-    }
-    const id = user.role === userRole.ADMIN ? userId : user.id;
+    const { id } = req.body;
+
+
 
     try {
-      delete user.totalPoints;
-      delete user.BatchId;
-      delete user.role;
-      delete user.Batch;
-      delete user.walletMoney;
-
-      await UserService.updateUser(id, user);
-      util.setSuccess(200, 'Users updated', user);
+      await UserService.updateUser(id, req.body);
+      util.setSuccess(200, 'Users updated', req.body);
       return util.send(res);
     } catch (error) {
+      console.log("Error in updateUserDetals in UserController.js", error)
       util.setError(500, error);
 
       return util.send(res);
@@ -162,7 +153,7 @@ class UserController {
     }
 
     try {
-      const theUser = await UserService.getAUser(user.id, 'id');
+      const theUser = await UserService.getAUser('id', user.id);
 
       if (!theUser) {
         util.setError(404, `Cannot find User with the id ${id}`);

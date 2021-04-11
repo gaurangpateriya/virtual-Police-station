@@ -57,6 +57,7 @@ db.FIR.belongsTo(db.User);
 db.Employee.hasMany(db.FIR);
 db.FIR.belongsTo(db.Employee);
 
-
+db.User.hasMany(db.UserRelatives, { onDelete: 'CASCADE' });
+db.UserRelatives.belongsTo(db.User);
 
 module.exports = db;

@@ -4,7 +4,7 @@ import database, { sequelize } from '../src/models';
 
 
 const {
-  User
+  User, UserRelatives
 } = database;
 class UserService {
   static async getAllUsers() {
@@ -17,7 +17,12 @@ class UserService {
 
   static async getAUser(key, value) {
     try {
-      return await User.findOne({ where: { [key]: value } });
+      return await User.findOne({
+        where: { [key]: value },
+        include: [
+          { model: UserRelatives }
+        ]
+      });
     } catch (error) {
       throw error;
     }
@@ -34,14 +39,14 @@ class UserService {
   }
 
   // method to update the user details in the database
-  static async updateUser(id, updateUser, t) {
+  static async updateUser(id, updateUser) {
     try {
       const UserToUpdate = await User.findOne({
         where: { id: Number(id) },
       });
 
       if (UserToUpdate) {
-        await UserToUpdate.update(updateUser, { transaction: t });
+        await UserToUpdate.update(updateUser);
         return updateUser;
       }
       return null;
