@@ -1,6 +1,6 @@
 
 const { Model } = require('sequelize');
-import { FirImageStatus } from '../../../../constants'
+
 
 module.exports = (sequelize, DataTypes) => {
   class FirImage extends Model {
