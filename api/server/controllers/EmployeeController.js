@@ -9,7 +9,7 @@ import EmployeeService from '../services/EmployeeService';
 
 import Util from '../utils/Utils';
 
-import { EmployeeRole, EmployeeStatus } from '../../../constants';
+
 
 
 // import mailjet from 'node-mailjet';
@@ -26,10 +26,6 @@ class EmployeeController {
     try {
       const { query } = req
       let condition = query
-
-
-
-
       const allEmployees = await EmployeeService.getAllEmployees(condition);
 
       util.setSuccess(200, 'Employees retrieved', allEmployees);

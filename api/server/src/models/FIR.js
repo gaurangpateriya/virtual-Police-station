@@ -26,6 +26,13 @@ module.exports = (sequelize, DataTypes) => {
       crimeNature: DataTypes.STRING,
       status: { type: DataTypes.STRING, defaultValue: firStatus.NOT_ASSIGNED },
       remark: { type: DataTypes.TEXT },
+      stolenMobileNumber: { type: DataTypes.STRING },
+      stolenMobileModel: { type: DataTypes.STRING },
+      stolenMobileIMEINumber: { type: DataTypes.STRING },
+      vehicleNumber: { type: DataTypes.STRING },
+      registrationNumber: { type: DataTypes.STRING },
+      vehicleModel: { type: DataTypes.STRING },
+      vehicleType: { type: DataTypes.STRING }
 
     },
     {

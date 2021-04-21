@@ -60,4 +60,13 @@ db.FIR.belongsTo(db.Employee);
 db.User.hasMany(db.UserRelatives, { onDelete: 'CASCADE' });
 db.UserRelatives.belongsTo(db.User);
 
+db.FIR.hasMany(db.FirImage, { onDelete: 'CASCADE' });
+db.FirImage.belongsTo(db.FIR);
+
+db.User.hasMany(db.NocApplication, { onDelete: 'CASCADE' });
+db.NocApplication.belongsTo(db.User);
+
+db.NocApplication.hasMany(db.NocApplicationDoc, { onDelete: 'CASCADE', as: 'relatedDocuments' });
+db.NocApplicationDoc.belongsTo(db.NocApplication);
+
 module.exports = db;

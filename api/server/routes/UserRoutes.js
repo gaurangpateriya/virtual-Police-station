@@ -1,12 +1,19 @@
 import { Router } from 'express';
+import multer from 'multer';
+
 import EmployeeController from '../controllers/EmployeeController';
 import userAuthMiddleware from '../../middlewares/userAuthMiddleware';
 import SosController from '../controllers/SosController';
 import FIRController from '../controllers/FIRController';
 import UserRelativesController from '../controllers/UserRelativesController';
 import UserController from '../controllers/UserController';
+import NocController from '../controllers/NocApplicationController';
+import NocApplicationController from '../controllers/NocApplicationController';
+
+const upload = multer();
 
 const router = Router();
+
 router.get('/details', userAuthMiddleware, UserController.getUserDetails);
 router.post('/details', userAuthMiddleware, UserController.updateUserDetals);
 
@@ -20,12 +27,17 @@ router.post('/add-sos-feedback', userAuthMiddleware, SosController.addSosFeedBac
 router.get('/get-sos-history', userAuthMiddleware, SosController.getAllSos)
 
 // FIR related routes
-router.post('/fir/add', userAuthMiddleware, FIRController.addFIR);
+router.post('/fir/add', upload.any(), userAuthMiddleware, FIRController.addFIR);
 router.get('/fir/get', userAuthMiddleware, FIRController.getAllFIR);
 
 //USer Relative routes
 router.post('/relative/add', userAuthMiddleware, UserRelativesController.addUserRelative);
 router.post('/relative/update', userAuthMiddleware, UserRelativesController.updateUserRelative);
 router.post('/relative/delete/:id', userAuthMiddleware, UserRelativesController.deleteUserRelative);
+
+// document routes
+router.post('/nocs/add', upload.any(), userAuthMiddleware, NocApplicationController.addNocApplication)
+router.get('/nocs/get', userAuthMiddleware, NocApplicationController.getAllNocApplications);
+router.get('/nocs/get-available', userAuthMiddleware, NocApplicationController.getAvailableNocs);
 
 export default router;

@@ -25,3 +25,15 @@ export const firStatus = {
   UNDER_INVESTIGATION: 'Under Investigation',
   INVESTIGATION_COMPLETED: 'Investigation Complete'
 }
+
+export const NocApplicationStatus = {
+  SUBMITTED: 'Submitted',
+  VERIFIED: 'Verified',
+  REJECTED: 'Rejected',
+}
+
+export const CERTIFICATE_TYPE = {
+  CLEARENCE_CERTIFICATE: 'Clearence Certificate',
+  RALLY_NOC: 'Rally/Procession NOC'
+
+}

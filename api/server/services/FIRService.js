@@ -4,20 +4,26 @@ import database, { sequelize } from '../src/models';
 
 
 const {
-  FIR, Employee, User
+  FIR, Employee, User, FirImage
 } = database;
+
+const includeTables = [
+  {
+    model: Employee,
+  },
+  {
+    model: User
+  },
+  {
+    model: FirImage
+  },
+]
 class FIRService {
   static async getAllFIRs(condition = null) {
     try {
       return await FIR.findAll({
         where: condition, include: [
-          {
-            model: Employee,
-          },
-          {
-            model: User
-          },
-
+          ...includeTables
         ],
         order: [['createdAt', 'DESC']],
       });
@@ -28,7 +34,10 @@ class FIRService {
 
   static async getAFIR(key, value) {
     try {
-      return await FIR.findOne({ where: { [key]: value } });
+      return await FIR.findOne({
+        where: { [key]: value },
+        include: includeTables
+      });
     } catch (error) {
       throw error;
     }
@@ -45,9 +54,9 @@ class FIRService {
 
 
 
-  static async addFIR(newFIR) {
+  static async addFIR(newFIR, t) {
     try {
-      return await FIR.create(newFIR);
+      return await FIR.create(newFIR, { transaction: t });
     } catch (error) {
       throw error;
     }

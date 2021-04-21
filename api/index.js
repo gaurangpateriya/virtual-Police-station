@@ -4,6 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import moment from 'moment';
 import morgan from 'morgan';
+import path from 'path';
 
 import AuthenticationRoutes from './server/routes/AuthenticationRoutes';
 import EmployeeRoutes from './server/routes/EmployeeRoutes';
@@ -23,8 +24,10 @@ config.config();
 const app = express();
 const port = process.env.PORT || 8000;
 
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
 app.use(cors());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
@@ -35,7 +38,7 @@ app.use('/api/admin', AdminRoutes);
 app.use('/api/employee', EmployeeRoutes);
 app.use('/api/user', UserRoutes)
 
-
+app.use('/api/assets/clearence-documents', express.static(path.join(__dirname, '../assets/clearence-documents')))
 // when a random route is inputed
 app.get('*', (req, res) => res.status(200).send({
     message: 'You are looking at the Virtual police station apis',

@@ -6,16 +6,34 @@
 import FIRService from '../services/FIRService';
 
 import Util from '../utils/Utils';
+import path from 'path';
 
 import { emplyoeeFIRResponse, FIRRole, FIRStatus, employeeRoles } from '../../../constants';
 import EmployeeService from '../services/EmployeeService';
 import { sequelize } from '../src/models';
 import { Op } from 'sequelize';
+import { uploadImage } from '../utils/helpers';
+import FirImageService from '../services/FirImageServices';
 
 
 
 
 const util = new Util();
+
+const uploadFirImage = async (image) => {
+  try {
+
+
+
+  } catch (err) {
+
+  }
+}
+
+//Capture
+
+
+
 
 class FIRController {
   static async getAllFIR(req, res) {
@@ -43,12 +61,34 @@ class FIRController {
   }
 
   static async addFIR(req, res) {
+    const t = await sequelize.transaction()
     try {
+      const files = req.files;
+      const body = req.body;
       const { user } = req;
-      const fir = await FIRService.addFIR({ ...req.body, UserId: user.id });
+
+      const fir = await FIRService.addFIR({ ...body, UserId: user.id }, t);
+
+      const { id: FIRId } = fir.dataValues;
+      const images = []
+      for (let i = 0; i < files.length; i += 1) {
+        const f = files[i];
+        const { fieldname: name, mimetype: type } = f
+        const imageUrl = await uploadImage(f);
+        const imageData = { FIRId, name, type, image: imageUrl };
+        const image = await FirImageService.addFirImage(imageData, t);
+        images.push(image)
+
+      }
+      // console.log(images, fir)
+      fir.dataValues.FirImages = images;
+
       util.setSuccess(200, 'FIR added', fir);
+      await t.commit();
+
       return util.send(res);
     } catch (error) {
+      await t.rollback()
       console.log('error in the getAllFIRs in FIRController.js', error);
       util.setError(500, error);
       return util.send(res);

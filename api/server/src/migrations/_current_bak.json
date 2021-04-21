@@ -146,6 +146,34 @@
                     "field": "remark",
                     "seqType": "Sequelize.TEXT"
                 },
+                "stolenMobileNumber": {
+                    "field": "stolenMobileNumber",
+                    "seqType": "Sequelize.STRING"
+                },
+                "stolenMobileModel": {
+                    "field": "stolenMobileModel",
+                    "seqType": "Sequelize.STRING"
+                },
+                "stolenMobileIMEINumber": {
+                    "field": "stolenMobileIMEINumber",
+                    "seqType": "Sequelize.STRING"
+                },
+                "vehicleNumber": {
+                    "field": "vehicleNumber",
+                    "seqType": "Sequelize.STRING"
+                },
+                "registrationNumber": {
+                    "field": "registrationNumber",
+                    "seqType": "Sequelize.STRING"
+                },
+                "vehicleModel": {
+                    "field": "vehicleModel",
+                    "seqType": "Sequelize.STRING"
+                },
+                "vehicleType": {
+                    "field": "vehicleType",
+                    "seqType": "Sequelize.STRING"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -155,6 +183,148 @@
                     "allowNull": false,
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "FirImages": {
+            "tableName": "FirImages",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "type": {
+                    "field": "type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "image": {
+                    "field": "image",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "FIRId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "FIRs",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "FIRId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "NocApplications": {
+            "tableName": "NocApplications",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "type": {
+                    "field": "type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "form": {
+                    "field": "form",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "status": {
+                    "defaultValue": {
+                        "value": "Submitted"
+                    },
+                    "field": "status",
+                    "seqType": "Sequelize.STRING"
+                },
+                "verifiedCertificate": {
+                    "field": "verifiedCertificate",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "remarks": {
+                    "field": "remarks",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "NocApplicationDocs": {
+            "tableName": "NocApplicationDocs",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "type": {
+                    "field": "type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "file": {
+                    "field": "file",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "NocApplicationId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "NocApplications",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "NocApplicationId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -326,6 +496,13 @@
                 },
                 "UserId": {
                     "field": "UserId",
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "createdAt": {
@@ -342,5 +519,5 @@
             "indexes": []
         }
     },
-    "revision": 11
+    "revision": 14
 }
