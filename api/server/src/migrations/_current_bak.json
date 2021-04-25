@@ -71,6 +71,17 @@
                     "allowNull": false,
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
+                },
+                "StationId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Stations",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "StationId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -183,6 +194,17 @@
                     "allowNull": false,
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
+                },
+                "StationId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Stations",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "StationId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -279,6 +301,28 @@
                     "allowNull": false,
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
+                },
+                "StationId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Stations",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "StationId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "UserId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "UserId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -325,6 +369,64 @@
                     "onUpdate": "CASCADE",
                     "field": "NocApplicationId",
                     "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "SafeTravels": {
+            "tableName": "SafeTravels",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "UserId": {
+                    "field": "UserId",
+                    "allowNull": true,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "startLocation": {
+                    "field": "startLocation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "endLocation": {
+                    "field": "endLocation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "lastLocation": {
+                    "field": "lastLocation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "status": {
+                    "field": "status",
+                    "seqType": "Sequelize.STRING"
+                },
+                "vehicleNumber": {
+                    "field": "vehicleNumber",
+                    "seqType": "Sequelize.STRING"
+                },
+                "endDate": {
+                    "field": "endDate",
+                    "seqType": "Sequelize.DATE"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -409,6 +511,38 @@
             },
             "indexes": []
         },
+        "Stations": {
+            "tableName": "Stations",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "required": true,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "area": {
+                    "field": "area",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
         "Users": {
             "tableName": "Users",
             "schema": {
@@ -457,6 +591,10 @@
                 "address": {
                     "field": "address",
                     "seqType": "Sequelize.STRING"
+                },
+                "verified": {
+                    "field": "verified",
+                    "seqType": "Sequelize.BOOLEAN"
                 },
                 "pincode": {
                     "len": 6,
@@ -519,5 +657,5 @@
             "indexes": []
         }
     },
-    "revision": 14
+    "revision": 20
 }

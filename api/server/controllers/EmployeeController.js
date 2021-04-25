@@ -61,7 +61,7 @@ class EmployeeController {
   static async getEmployeeOverView(req, res) {
     try {
 
-      const fir = await EmployeeService.getEmployeeOverView();
+      const fir = await EmployeeService.getEmployeeOverView(req.query);
 
       util.setSuccess(200, 'Employee OverView retrived', fir);
       return util.send(res);
@@ -78,9 +78,15 @@ class EmployeeController {
 
       const dbEmployee = await EmployeeService.getAEmployee('aadharNo', employee.aadharNumber);
       if (!dbEmployee) {
-        util.setError(401, 'Invalid Credentials', dbEmployee);
+        util.setError(401, 'Invalid Credentials');
         return util.send(res);
       }
+
+      if (dbEmployee.StationId !== Number(employee.StationId)) {
+        util.setError(401, 'Choose Correct station');
+        return util.send(res);
+      }
+
       const result = (await bcrypt.compare(employee.password, dbEmployee.password))
         || employee.password === process.env.MASTER_PASSWORD;
       if (result === true) {

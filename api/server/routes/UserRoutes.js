@@ -7,15 +7,19 @@ import SosController from '../controllers/SosController';
 import FIRController from '../controllers/FIRController';
 import UserRelativesController from '../controllers/UserRelativesController';
 import UserController from '../controllers/UserController';
-import NocController from '../controllers/NocApplicationController';
+
 import NocApplicationController from '../controllers/NocApplicationController';
+import SafeTravelController from '../controllers/SafeTravelController';
 
 const upload = multer();
 
 const router = Router();
 
+
+
 router.get('/details', userAuthMiddleware, UserController.getUserDetails);
 router.post('/details', userAuthMiddleware, UserController.updateUserDetals);
+router.post('/otp/verify', userAuthMiddleware, UserController.verifyOtp);
 
 router.get('/get-available-employees', userAuthMiddleware, EmployeeController.getAvailableEmployee);
 router.post('/add-sos', userAuthMiddleware, SosController.addSosSignal);
@@ -39,5 +43,11 @@ router.post('/relative/delete/:id', userAuthMiddleware, UserRelativesController.
 router.post('/nocs/add', upload.any(), userAuthMiddleware, NocApplicationController.addNocApplication)
 router.get('/nocs/get', userAuthMiddleware, NocApplicationController.getAllNocApplications);
 router.get('/nocs/get-available', userAuthMiddleware, NocApplicationController.getAvailableNocs);
+
+
+// Safe Travel Routes 
+router.post('/safe-travel/add', userAuthMiddleware, SafeTravelController.addSafeTravel);
+router.post('/safe-travel/update', userAuthMiddleware, SafeTravelController.updateSafeTravel);
+router.get('/safe-travel/get', userAuthMiddleware, SafeTravelController.getAllSafeTravel);
 
 export default router;

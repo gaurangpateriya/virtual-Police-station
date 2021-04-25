@@ -4,7 +4,7 @@ import database, { sequelize } from '../src/models';
 
 
 const {
-  FIR, Employee, User, FirImage
+  FIR, Employee, User, FirImage, Station
 } = database;
 
 const includeTables = [
@@ -17,6 +17,9 @@ const includeTables = [
   {
     model: FirImage
   },
+  {
+    model: Station
+  }
 ]
 class FIRService {
   static async getAllFIRs(condition = null) {
@@ -42,10 +45,11 @@ class FIRService {
       throw error;
     }
   }
-  static async getFirOverView() {
+  static async getFirOverView(condition) {
     try {
       return await FIR.count({
-        group: ['status']
+        group: ['status'],
+        where: condition
       });
     } catch (error) {
       throw error;

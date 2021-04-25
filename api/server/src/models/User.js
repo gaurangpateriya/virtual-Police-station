@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM(['M', 'F', 'O'])
       },
       address: DataTypes.STRING,
+      verified: DataTypes.BOOLEAN,
       pincode: {
         type: DataTypes.STRING, len: 6,
       },

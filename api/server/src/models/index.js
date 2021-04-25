@@ -54,6 +54,9 @@ db.Sos.belongsTo(db.Employee);
 db.User.hasMany(db.FIR, { onDelete: 'CASCADE' });
 db.FIR.belongsTo(db.User);
 
+db.User.hasMany(db.SafeTravel, { onDelete: 'CASCADE' });
+db.SafeTravel.belongsTo(db.User);
+
 db.Employee.hasMany(db.FIR);
 db.FIR.belongsTo(db.Employee);
 
@@ -62,6 +65,18 @@ db.UserRelatives.belongsTo(db.User);
 
 db.FIR.hasMany(db.FirImage, { onDelete: 'CASCADE' });
 db.FirImage.belongsTo(db.FIR);
+
+db.Station.hasMany(db.FIR, { onDelete: 'CASCADE' });
+db.FIR.belongsTo(db.Station);
+
+db.Station.hasMany(db.NocApplication, { onDelete: 'CASCADE' });
+db.NocApplication.belongsTo(db.Station);
+
+db.Station.hasMany(db.Employee, { onDelete: 'CASCADE' });
+db.Employee.belongsTo(db.Station);
+
+db.Station.hasMany(db.SafeTravel, { onDelete: 'CASCADE' });
+db.SafeTravel.belongsTo(db.Station);
 
 db.User.hasMany(db.NocApplication, { onDelete: 'CASCADE' });
 db.NocApplication.belongsTo(db.User);

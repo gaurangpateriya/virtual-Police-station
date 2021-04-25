@@ -98,7 +98,7 @@ class FIRController {
   static async getFirOverView(req, res) {
     try {
 
-      const fir = await FIRService.getFirOverView();
+      const fir = await FIRService.getFirOverView(req.query);
 
       util.setSuccess(200, 'FIR OverView retrived', fir);
       return util.send(res);

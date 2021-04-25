@@ -87,7 +87,28 @@ class UserController {
   }
 
 
+  static async verifyOtp(req, res) {
+    const { otp } = req.body;
+    const { user } = req;
 
+
+
+    try {
+      if (!(otp === '1234' || otp === '4567' || otp == '8545')) {
+        util.setSuccess(401, 'Invalid OTP');
+        return util.send(res);
+      }
+      await UserService.updateUser(user.id, { ...user, verified: true });
+      console.log("sdffds")
+      util.setSuccess(200, 'OTP verified', { verified: true });
+      return util.send(res);
+    } catch (error) {
+      console.log("Error in verifyOtp in UserController.js", error)
+      util.setError(500, error);
+
+      return util.send(res);
+    }
+  }
   // method to update the user details in the database
   static async updateUserDetals(req, res) {
     // send the user details that you have to update

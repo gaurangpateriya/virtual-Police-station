@@ -189,7 +189,7 @@ class NocApplicationController {
   static async getNocOverView(req, res) {
     try {
 
-      const fir = await NocApplicationService.getNocApplicationOverView();
+      const fir = await NocApplicationService.getNocApplicationOverView(req.query);
 
       util.setSuccess(200, 'Noc OverView retrived', fir);
       return util.send(res);

@@ -10,6 +10,7 @@ import AuthenticationRoutes from './server/routes/AuthenticationRoutes';
 import EmployeeRoutes from './server/routes/EmployeeRoutes';
 import UserRoutes from './server/routes/UserRoutes';
 import AdminRoutes from './server/routes/AdminRoutes';
+import StationController from './server/controllers/StationController';
 
 // import mailjet from 'node-mailjet';
 // const sgMail = require('@sendgrid/mail');
@@ -39,6 +40,8 @@ app.use('/api/employee', EmployeeRoutes);
 app.use('/api/user', UserRoutes)
 
 app.use('/api/assets/clearence-documents', express.static(path.join(__dirname, '../assets/clearence-documents')))
+app.get('/api/station/get', StationController.getAllStation);
+
 // when a random route is inputed
 app.get('*', (req, res) => res.status(200).send({
     message: 'You are looking at the Virtual police station apis',

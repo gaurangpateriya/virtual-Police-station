@@ -4,7 +4,7 @@ import database, { sequelize } from '../src/models';
 
 
 const {
-  NocApplication, Employee, User, NocApplicationDoc
+  NocApplication, Station, User, NocApplicationDoc
 } = database;
 
 const includeTables = [
@@ -17,6 +17,9 @@ const includeTables = [
     as: 'relatedDocuments'
 
   },
+  {
+    model: Station
+  }
 ]
 class NocApplicationService {
   static async getAllNocApplications(condition = null) {
@@ -42,10 +45,11 @@ class NocApplicationService {
       throw error;
     }
   }
-  static async getNocApplicationOverView() {
+  static async getNocApplicationOverView(condition) {
     try {
       return await NocApplication.count({
-        group: ['status']
+        group: ['status'],
+        where: condition
       });
     } catch (error) {
       throw error;

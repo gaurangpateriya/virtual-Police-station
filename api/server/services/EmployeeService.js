@@ -6,7 +6,7 @@ import database, { sequelize } from '../src/models';
 
 
 const {
-  Employee
+  Employee, Station
 } = database;
 class EmployeeService {
   static async getAllEmployees(condition) {
@@ -20,17 +20,17 @@ class EmployeeService {
 
   static async getAEmployee(key, value) {
     try {
-      return await Employee.findOne({ where: { [key]: value } });
+      return await Employee.findOne({ where: { [key]: value }, include: [Station] });
     } catch (error) {
       throw error;
     }
   }
 
-  static async getEmployeeOverView() {
+  static async getEmployeeOverView(condition) {
     try {
       return await Employee.count({
         group: ['role'],
-        where: { role: { [Op.ne]: employeeRoles.ADMIN } }
+        where: { ...condition, role: { [Op.ne]: employeeRoles.ADMIN } }
       });
     } catch (error) {
       throw error;

@@ -43,9 +43,7 @@ class SosService {
       const overview = await Sos.count({
 
         group: [sequelize.fn('date_trunc', 'day', sequelize.col('createdAt'))],
-        createdAt: {
-          [Op.gte]: moment().subtract(7, 'days').toDate()
-        }
+
       })
       return overview;
 
