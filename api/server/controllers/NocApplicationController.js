@@ -36,7 +36,9 @@ class NocApplicationController {
           name: CERTIFICATE_TYPE.RALLY_NOC,
           type: CERTIFICATE_TYPE.RALLY_NOC,
           fileName: "rally_procession_noc.pdf",
-          requiredDocuments: []
+          requiredDocuments: [
+            { name: 'Aadhar Card', options: { type: 'application/pdf' } },
+          ]
         }
       ]
       util.setSuccess(200, 'Available Documents retrieved', availableDocuments);
